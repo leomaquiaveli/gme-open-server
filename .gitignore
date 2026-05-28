@@ -1,0 +1,41 @@
+# Environment — never commit credentials
+.env
+
+# Internal AI agent files — not for the public repo
+CLAUDE-HARNESS-PROMPT.md
+AGENTS.md
+CLAUDE.md
+.claude/
+
+# Compiled binaries
+*.exe
+*.exe~
+server.exe
+gme-open-server
+/dist/
+/tmp/
+
+# Internal / private directories
+creator/
+local-storage/
+
+# Test output
+coverage.out
+coverage.html
+coverage/
+
+# Go
+vendor/
+
+# Logs
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

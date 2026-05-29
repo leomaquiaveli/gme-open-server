@@ -8,7 +8,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o gme-open-server ./cmd/server
 
 # Fase 2: runtime — imagem mínima com FFmpeg
 FROM ubuntu:24.04
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     ffmpeg \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*

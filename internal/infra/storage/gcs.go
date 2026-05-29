@@ -11,10 +11,12 @@ import (
 	"encoding/pem"
 	"fmt"
 	"io"
+	"mime"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 )
@@ -125,7 +127,7 @@ func (g *GCSStorage) Upload(localPath string, contentType string) (string, error
 	req.Header.Set("Authorization", "Bearer "+token)
 
 	if contentType == "" {
-		contentType = "application/octet-stream"
+		contentType = contentTypeForPath(localPath)
 	}
 	req.Header.Set("Content-Type", contentType)
 
@@ -142,6 +144,35 @@ func (g *GCSStorage) Upload(localPath string, contentType string) (string, error
 
 	return fmt.Sprintf("https://storage.googleapis.com/%s/%s",
 		g.bucket, url.PathEscape(objectName)), nil
+}
+
+// contentTypeForPath infere o Content-Type pela extensão. Sem isso, o GCS recebe
+// application/octet-stream e o navegador força download em vez de tocar inline.
+func contentTypeForPath(path string) string {
+	switch strings.ToLower(filepath.Ext(path)) {
+	case ".mp4", ".m4v":
+		return "video/mp4"
+	case ".mov":
+		return "video/quicktime"
+	case ".webm":
+		return "video/webm"
+	case ".mkv":
+		return "video/x-matroska"
+	case ".mp3":
+		return "audio/mpeg"
+	case ".m4a":
+		return "audio/mp4"
+	case ".aac":
+		return "audio/aac"
+	case ".wav":
+		return "audio/wav"
+	case ".ogg":
+		return "audio/ogg"
+	}
+	if ct := mime.TypeByExtension(filepath.Ext(path)); ct != "" {
+		return ct
+	}
+	return "application/octet-stream"
 }
 
 func (g *GCSStorage) accessToken() (string, error) {

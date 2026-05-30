@@ -19,7 +19,7 @@ GME Open Server is an HTTP server that accepts video processing jobs via a simpl
 
 You send a request describing what you want — cut a video, convert to vertical 9:16, generate multiple clips from a single source — and the server handles the rest: downloading files, processing them with FFmpeg (with automatic GPU acceleration when available), uploading to storage, and notifying your application when the job is done.
 
-It was built to power [Growth Media Engine](https://github.com/leomaquiaveli), a content production platform that processes thousands of video clips per day. The project is open source so anyone can run the same infrastructure that powers a real production system.
+It powers [Growth Media Engine](https://github.com/leomaquiaveli) — a platform that turns commands into finished videos: the capabilities of professional video editing software delivered through an API, with rendering delegated to the cloud. Your own "creative cloud" — pay-per-use instead of software licenses, specialists, and workstations that sit idle and depreciate. Open source, so anyone can run their own media engine.
 
 **Who is this for:**
 - Developers building video automation pipelines (N8N, Make, custom APIs)
@@ -406,6 +406,8 @@ On failure: `"status": "failed"` with an `"error"` field describing the FFmpeg e
 ## Deploy
 
 ### Google Cloud Run
+
+> **Step-by-step guide:** [docs/deploy/deploy-cloud-run.md](docs/deploy/deploy-cloud-run.md) — from zero to a running server, with every command and the reasoning behind it.
 
 ```bash
 # Build and push
